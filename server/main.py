@@ -180,7 +180,10 @@ def list_reviews(
                 "id": r.id,
                 "content": r.content,
                 "book_id": r.book_id,
-                "book_title": r.book.title if r.book else "Unknown",  # Lấy tên sách
+                "book_title": r.book.title if r.book else "Unknown",
+                "author_name": r.book.author.name
+                if (r.book and r.book.author)
+                else "Unknown",  # Lấy tên tác giả
             }
             for r in reviews
         ],

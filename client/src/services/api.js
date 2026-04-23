@@ -9,8 +9,7 @@ export const updateAuthor = (id, data) =>
   axios.put(`${API_URL}/authors/${id}`, data);
 export const deleteAuthor = (id) => axios.delete(`${API_URL}/authors/${id}`);
 
-export const getBooks = (skip = 0, limit = 10) =>
-  axios.get(`${API_URL}/books?skip=${skip}&limit=${limit}`);
+export const getBooks = () => axios.get(`${API_URL}/books`);
 export const createBook = (data) => axios.post(`${API_URL}/book`, data);
 export const updateBook = (id, data) =>
   axios.put(`${API_URL}/books/${id}`, data);

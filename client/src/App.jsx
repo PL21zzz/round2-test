@@ -3,7 +3,8 @@ import AuthorCreate from "./components/AuthorCreate";
 import AuthorList from "./components/AuthorList";
 import BookCreate from "./components/BookCreate";
 import BookList from "./components/BookList";
-// import ReviewList from "./components/ReviewList";
+import ReviewCreate from "./components/ReviewCreate";
+import ReviewList from "./components/ReviewList";
 
 function App() {
   const [activeTab, setActiveTab] = useState("authors");
@@ -58,13 +59,15 @@ function App() {
             />
           </>
         )}
-        {activeTab === "reviews" &&
-          {
-            /* <ReviewList
-            refresh={refresh}
-            onUpdated={() => setRefresh(Date.now())}
-          /> */
-          }}
+        {activeTab === "reviews" && (
+          <>
+            <ReviewCreate onCreated={() => setRefresh(Date.now())} />
+            <ReviewList
+              refresh={refresh}
+              onUpdated={() => setRefresh(Date.now())}
+            />
+          </>
+        )}
       </div>
     </div>
   );
