@@ -13,7 +13,7 @@ const AuthorCreate = ({ onCreated }) => {
     }
 
     try {
-      await axios.post("http://localhost:8000/author", { name });
+      await axios.post("https://round2-test.onrender.com/author", { name });
       setName("");
       setError("");
       onCreated(); // Gọi lại hàm để reload list

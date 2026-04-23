@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000";
+const API_URL = "https://round2-test.onrender.com";
 
 // Tách hàm riêng biệt
 export const getAuthors = () => axios.get(`${API_URL}/authors`);

@@ -16,7 +16,7 @@ const AuthorList = ({ refresh, onUpdated }) => {
     const fetchData = async () => {
       const skip = (page - 1) * LIMIT;
       const res = await axios.get(
-        `http://localhost:8000/authors?skip=${skip}&limit=${LIMIT}`,
+        `https://round2-test.onrender.com/authors?skip=${skip}&limit=${LIMIT}`,
       );
 
       setAuthors(res.data.data || []);
