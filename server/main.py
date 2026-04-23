@@ -62,9 +62,19 @@ def list_authors(
     skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)
 ):
     authors = db.query(models.Author).offset(skip).limit(limit).all()
-
     total = db.query(models.Author).count()
-    return {"data": authors, "total": total}
+
+    data = []
+    for a in authors:
+        data.append(
+            {
+                "id": a.id,
+                "name": a.name,
+                "books": len(a.books),  # Đếm số lượng sách thực tế trong quan hệ
+            }
+        )
+
+    return {"data": data, "total": total}
 
 
 # --- BOOKS ---
@@ -103,17 +113,22 @@ def delete_book(book_id: int, db: Session = Depends(database.get_db)):
 
 
 @app.get("/books")
-def list_books(db: Session = Depends(database.get_db)):
-    # Trả về book kèm tên author
-    books = db.query(models.Book).all()
-    return [
-        {
-            "id": b.id,
-            "title": b.title,
-            "author": b.author.name if b.author else "Unknown",
-        }
-        for b in books
-    ]
+def list_books(skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)):
+    books = db.query(models.Book).offset(skip).limit(limit).all()
+    total = db.query(models.Book).count()  # Đếm tổng để FE tính số trang
+
+    return {
+        "data": [
+            {
+                "id": b.id,
+                "title": b.title,
+                "author_id": b.author_id,  # FE cần ID để làm dropdown
+                "author": b.author.name if b.author else "Unknown",
+            }
+            for b in books
+        ],
+        "total": total,
+    }
 
 
 # --- REVIEWS ---
@@ -153,8 +168,24 @@ def delete_review(review_id: int, db: Session = Depends(database.get_db)):
 
 
 @app.get("/reviews")
-def list_reviews(db: Session = Depends(database.get_db)):
-    return db.query(models.Review).all()
+def list_reviews(
+    skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)
+):
+    reviews = db.query(models.Review).offset(skip).limit(limit).all()
+    total = db.query(models.Review).count()
+
+    return {
+        "data": [
+            {
+                "id": r.id,
+                "content": r.content,
+                "book_id": r.book_id,
+                "book_title": r.book.title if r.book else "Unknown",  # Lấy tên sách
+            }
+            for r in reviews
+        ],
+        "total": total,
+    }
 
 
 if __name__ == "__main__":

@@ -12,16 +12,13 @@ const AuthorList = ({ refresh, onUpdated }) => {
   const [total, setTotal] = useState(0);
   const LIMIT = 4;
 
-  // GỘP LẠI THÀNH 1 USEEFFECT DUY NHẤT
   useEffect(() => {
     const fetchData = async () => {
       const skip = (page - 1) * LIMIT;
-      // Dùng axios trực tiếp hoặc dùng hàm getAuthors trong api.js (nếu đã sửa để nhận tham số)
       const res = await axios.get(
         `http://localhost:8000/authors?skip=${skip}&limit=${LIMIT}`,
       );
 
-      // SỬA LỖI: Lấy đúng res.data.data
       setAuthors(res.data.data || []);
       setTotal(res.data.total || 0);
     };
